@@ -12,30 +12,28 @@ class Test():
 		# self.data = ''
 		rospy.init_node('websocket_server')
 		rate = rospy.Rate(10)
-		#string_pub = rospy.Publisher('/websocket_test', String, queue_size = 1)
-		start_server = websockets.serve(Test.accept, "0.0.0.0", 0000)
+		start_server = websockets.serve(Test.accept, "0.0.0.0", 9090)
 		
 		asyncio.get_event_loop().run_until_complete(start_server)
 		rospy.loginfo("listening")
-		
-		#string_msg = String()
-		#jsonObject = json.loads(self.data.encode('utf-8').decode('utf-8')))
-		#string_msg.data = jsonObject.get(name)
-		
-		#string_pub.publish(string_msg)
+
 		asyncio.get_event_loop().run_forever()
 		rospy.spin()
 			
 	async def accept(websocket, path):
 		while True:
 			data = await websocket.recv()
-			print(data)
-			#await websocket.send("echo" + data)
+			json_obj = json.loads(data.decode('utf-8'))
+			print(json_obj)
+			
 
 
 if __name__ == '__main__':
 	try:
 		test = Test()
 		
-	except rospy.ROSInterruptException:
-		exit()
+	# except rospy.ROSInterruptException:
+	#	exit()
+
+	except KeyboradInterrupt:
+		print('Ctrl + C Interrupt')
