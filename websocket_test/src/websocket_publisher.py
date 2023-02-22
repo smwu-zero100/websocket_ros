@@ -14,7 +14,7 @@ class Test():
         rospy.init_node('websocket_server')
         rate = rospy.Rate(10)
         # string_pub = rospy.Publisher('/websocket_test', String, queue_size = 1)
-        start_server = websockets.serve(Test.accept, "0.0.0.0", 9090)
+        start_server = websockets.serve(Test.accept, "0.0.0.0", 9090, ping_timeout=None)
 
         asyncio.get_event_loop().run_until_complete(start_server)
         rospy.loginfo("listening")
